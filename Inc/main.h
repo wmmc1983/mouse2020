@@ -38,6 +38,15 @@ extern "C" {
 /* Exported types ------------------------------------------------------------*/
 /* USER CODE BEGIN ET */
 
+extern ADC_HandleTypeDef hadc1;
+extern ADC_HandleTypeDef hadc2;
+
+extern TIM_HandleTypeDef htim6;
+extern TIM_HandleTypeDef htim16;
+extern TIM_HandleTypeDef htim17;
+
+extern UART_HandleTypeDef huart1;
+
 /* USER CODE END ET */
 
 /* Exported constants --------------------------------------------------------*/
@@ -50,6 +59,8 @@ extern "C" {
 
 /* USER CODE END EM */
 
+void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
+
 /* Exported functions prototypes ---------------------------------------------*/
 void Error_Handler(void);
 
@@ -58,6 +69,32 @@ void Error_Handler(void);
 /* USER CODE END EFP */
 
 /* Private defines -----------------------------------------------------------*/
+#define IR_FR_Pin GPIO_PIN_1
+#define IR_FR_GPIO_Port GPIOA
+#define IR_R_Pin GPIO_PIN_3
+#define IR_R_GPIO_Port GPIOA
+#define IR_L_Pin GPIO_PIN_4
+#define IR_L_GPIO_Port GPIOA
+#define IR_FL_Pin GPIO_PIN_6
+#define IR_FL_GPIO_Port GPIOA
+#define SW1_Pin GPIO_PIN_8
+#define SW1_GPIO_Port GPIOA
+#define SW2_Pin GPIO_PIN_11
+#define SW2_GPIO_Port GPIOA
+#define LED2_Pin GPIO_PIN_12
+#define LED2_GPIO_Port GPIOA
+#define LED1_Pin GPIO_PIN_13
+#define LED1_GPIO_Port GPIOA
+#define LED3_Pin GPIO_PIN_14
+#define LED3_GPIO_Port GPIOA
+#define SW3_Pin GPIO_PIN_15
+#define SW3_GPIO_Port GPIOA
+#define CW_CCW_L_Pin GPIO_PIN_3
+#define CW_CCW_L_GPIO_Port GPIOB
+#define CW_CCW_R_Pin GPIO_PIN_6
+#define CW_CCW_R_GPIO_Port GPIOB
+#define M3_Pin GPIO_PIN_7
+#define M3_GPIO_Port GPIOB
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
