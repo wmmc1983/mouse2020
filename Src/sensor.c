@@ -26,7 +26,9 @@ void sensor_init(void){
   /*------------------------------------
     TIM6 Interrupt Initialization
   ------------------------------------*/
-  HAL_TIM_Base_Start_IT(&htim6);
+  __HAL_TIM_CLEAR_FLAG(&htim6, TIM_FLAG_UPDATE);
+  __HAL_TIM_ENABLE_IT(&htim6, TIM_IT_UPDATE);
+  HAL_TIM_Base_Start(&htim6);
 
 }
 
@@ -45,7 +47,7 @@ int get_adc_value(ADC_HandleTypeDef *hadc, uint32_t channel){
   sConfig.Channel = channel;
   sConfig.Rank = ADC_REGULAR_RANK_1;
   sConfig.SingleDiff = ADC_SINGLE_ENDED;
-  sConfig.SamplingTime = ADC_SAMPLETIME_1CYCLE_5;
+  sConfig.SamplingTime = ADC_SAMPLETIME_19CYCLES_5;
   sConfig.OffsetNumber = ADC_OFFSET_NONE;
   sConfig.Offset = 0;
 

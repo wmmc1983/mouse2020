@@ -331,12 +331,16 @@ void drive_start(void){
   /*--------------------------------------------------------------------
     TIM16 : 16ビットタイマ。左モータの制御に使う。出力はTIM16_CH1
   --------------------------------------------------------------------*/
-  HAL_TIM_PWM_Start_IT(&htim16, TIM_CHANNEL_1);
+  __HAL_TIM_CLEAR_FLAG(&htim16, TIM_FLAG_UPDATE);
+  __HAL_TIM_ENABLE_IT(&htim16, TIM_IT_UPDATE);
+  HAL_TIM_PWM_Start(&htim16, TIM_CHANNEL_1);
 
   /*--------------------------------------------------------------------
     TIM17 : 16ビットタイマ。右モータの制御に使う。出力はTIM17_CH1
   --------------------------------------------------------------------*/
-  HAL_TIM_PWM_Start_IT(&htim17, TIM_CHANNEL_1);
+  __HAL_TIM_CLEAR_FLAG(&htim17, TIM_FLAG_UPDATE);
+  __HAL_TIM_ENABLE_IT(&htim17, TIM_IT_UPDATE);
+  HAL_TIM_PWM_Start(&htim17, TIM_CHANNEL_1);
 
 }
 
@@ -354,12 +358,12 @@ void drive_stop(void){
   /*--------------------------------------------------------------------
     TIM16 : 16ビットタイマ。左モータの制御に使う。出力はTIM16_CH1
   --------------------------------------------------------------------*/
-  HAL_TIM_PWM_Stop_IT(&htim16, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Stop(&htim16, TIM_CHANNEL_1);
 
   /*--------------------------------------------------------------------
     TIM17 : 16ビットタイマ。右モータの制御に使う。出力はTIM17_CH1
   --------------------------------------------------------------------*/
-  HAL_TIM_PWM_Stop_IT(&htim17, TIM_CHANNEL_1);
+  HAL_TIM_PWM_Stop(&htim17, TIM_CHANNEL_1);
 
   __HAL_TIM_SET_COUNTER(&htim16, 0);  // Reset Counter
   __HAL_TIM_SET_COUNTER(&htim17, 0);  // Reset Counter

@@ -34,16 +34,16 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
   今加減速のどの段階なのか（table[]の要素番号・インデックス）はt_cnt_l,t_cnt_rで記録している。
   **********/
 
-  if (htim == &htim16) {
+  if (htim->Instance == htim16.Instance) {
     /*--------------------------------------------------------------------
         16ビットタイマーTIM16の割り込み処理，左モータの管理をおこなう
     --------------------------------------------------------------------*/
 
-    pulse_l++;                  //左パルスのカウンタをインクリメント
+    pulse_l++;                        //左パルスのカウンタをインクリメント
 
     //====加減速処理====
     //----減速処理----
-    if(MF.FLAG.DECL){             //減速フラグが立っている場合
+    if(MF.FLAG.DECL){                 //減速フラグが立っている場合
       t_cnt_l = max(t_cnt_l - 1, min_t_cnt);
     }
     //----加速処理----
@@ -52,7 +52,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     }
 
     //----デフォルトインターバル----
-    if(MF.FLAG.DEF){              //デフォルトインターバルフラグが立っている場合
+    if(MF.FLAG.DEF){                  //デフォルトインターバルフラグが立っている場合
       __HAL_TIM_SET_AUTORELOAD(&htim16, DEFAULT_INTERVAL - dl );  //デフォルトインターバルに制御を加えた値に設定
     }
     //----それ以外の時はテーブルカウンタの指し示すインターバル----
@@ -61,18 +61,18 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     }
 
 
-  } /* if (htim == &htim16) */
+  } /* if (htim->Instance == htim16.Instance) */
 
-  else if (htim == &htim17) {
+  else if (htim->Instance == htim17.Instance) {
     /*--------------------------------------------------------------------
         16ビットタイマーTIM17の割り込み処理，右モータの管理をおこなう
     --------------------------------------------------------------------*/
 
-    pulse_r++;                  //右パルスのカウンタをインクリメント
+    pulse_r++;                        //右パルスのカウンタをインクリメント
 
     //====加減速処理====
     //----減速処理----
-    if(MF.FLAG.DECL){             //減速フラグが立っている場合
+    if(MF.FLAG.DECL){                 //減速フラグが立っている場合
       t_cnt_r = max(t_cnt_r - 1, min_t_cnt);
     }
     //----加速処理----
@@ -81,7 +81,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     }
 
     //----デフォルトインターバル----
-    if(MF.FLAG.DEF){              //デフォルトインターバルフラグが立っている場合
+    if(MF.FLAG.DEF){                  //デフォルトインターバルフラグが立っている場合
       __HAL_TIM_SET_AUTORELOAD(&htim17, DEFAULT_INTERVAL - dr);   //デフォルトインターバルに制御を加えた値に設定
     }
     //----それ以外の時はテーブルカウンタの指し示すインターバル----
@@ -90,9 +90,9 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     }
 
 
-  }  /* if (htim == &htim17) */
+  }  /* if (htim->Instance == htim17.Instance) */
 
-  else if (htim == &htim6) {
+  else if (htim->Instance == htim6.Instance) {
     /*==========================================================
         タスク実行用タイマ割り込み
     ==========================================================*/
@@ -138,13 +138,13 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
           dif_l = (int32_t) ad_l - base_l;
           dif_r = (int32_t) ad_r - base_r;
 
-          if(CTRL_BASE_L < dif_l){          //制御の判断
-            dl_tmp += CTRL_CONT * dif_l;      //比例制御値を決定
+          if(CTRL_BASE_L < dif_l){              //制御の判断
+            dl_tmp += CTRL_CONT * dif_l;        //比例制御値を決定
             dr_tmp += -1 * CTRL_CONT * dif_l;   //比例制御値を決定
           }
           if(CTRL_BASE_R < dif_r){
             dl_tmp += -1 * CTRL_CONT * dif_r;   //比例制御値を決定
-            dr_tmp += CTRL_CONT * dif_r;      //比例制御値を決定
+            dr_tmp += CTRL_CONT * dif_r;        //比例制御値を決定
           }
 
           //一次保存した制御比例値をdlとdrに反映させる
@@ -160,7 +160,7 @@ void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim){
     //====タスクポインタを進める====
     tp = (tp+1) % 3;
 
-  } /* if (htim == &htim6) */
+  } /* if (htim->Instance == htim6.Instance) */
 
 } /* HAL_TIM_PeriodElapsedCallback */
 

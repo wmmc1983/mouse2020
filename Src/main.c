@@ -147,7 +147,7 @@ int main(void)
 
 
     //====モード選択====
-    mode = select_mode(mode);   //select_mode(); は auxiliary.c で定義されている
+    mode = select_mode(mode);     //select_mode(); は auxiliary.c で定義されている
 
     //----選択項目の実行----
     switch(mode){
@@ -155,37 +155,37 @@ int main(void)
       case 0:
         //----基準値を取る----
         printf("Get Base Value.\n");
-        get_base();       //壁制御のための基準値取得，sensor.c で定義されている
+        get_base();               //壁制御のための基準値取得，sensor.c で定義されている
         break;
 
       case 1:
         //----一次探索走行（1区画走行）----
         printf("First Run. (Discontinuous)\n");
-        drive_enable_motor(); //ステッピングモータを励磁，drive.c で定義されている
+        drive_enable_motor();     //ステッピングモータを励磁，drive.c で定義されている
 
-        MF.FLAG.SCND = 0;   //二次走行フラグをクリア，マウスフラグは global.h に定義あり
+        MF.FLAG.SCND = 0;         //二次走行フラグをクリア，マウスフラグは global.h に定義あり
         goal_x = GOAL_X;
-        goal_y = GOAL_Y;    //ゴール座標を設定，GOAL_X・GOAL_Y は global.h に定義あり
+        goal_y = GOAL_Y;          //ゴール座標を設定，GOAL_X・GOAL_Y は global.h に定義あり
 
-        rotate_R90();     //右に90度回転する，drive.c で定義されている
-        drive_wait();     //機体が安定するまで待機，drive.h に定義あり
-        set_position(0);    //尻当てをして機体の位置を中央へ，drive.c で定義されている
-        drive_wait();     //機体が安定するまで待機
-        rotate_L90();     //左に90度回転する，drive.c で定義されている
-        drive_wait();     //機体が安定するまで待機
-        set_position(0);    //尻当てをして機体の位置を中央へ
-        drive_wait();     //機体が安定するまで待機
+        rotate_R90();             //右に90度回転する，drive.c で定義されている
+        drive_wait();             //機体が安定するまで待機，drive.h に定義あり
+        set_position(0);          //尻当てをして機体の位置を中央へ，drive.c で定義されている
+        drive_wait();             //機体が安定するまで待機
+        rotate_L90();             //左に90度回転する，drive.c で定義されている
+        drive_wait();             //機体が安定するまで待機
+        set_position(0);          //尻当てをして機体の位置を中央へ
+        drive_wait();             //機体が安定するまで待機
 
-        searchA();        //現在位置（スタート地点）からゴール座標まで探索走行（1区画走行）
+        searchA();                //現在位置（スタート地点）からゴール座標まで探索走行（1区画走行）
         HAL_Delay(500);
 
-        goal_x = goal_y = 0;  //ゴール座標をスタート地点に設定する
-        searchA();        //探索しながらスタート地点に戻る（1区画走行）
+        goal_x = goal_y = 0;      //ゴール座標をスタート地点に設定する
+        searchA();                //探索しながらスタート地点に戻る（1区画走行）
 
         goal_x = GOAL_X;
-        goal_y = GOAL_Y;    //ゴール座標を設定
+        goal_y = GOAL_Y;          //ゴール座標を設定
 
-        drive_disable_motor();  //ステッピングモータの励磁を切る
+        drive_disable_motor();    //ステッピングモータの励磁を切る
         break;
 
       case 2:
@@ -193,7 +193,7 @@ int main(void)
         printf("Second Run. (Discontinuous)\n");
         drive_enable_motor();
 
-        MF.FLAG.SCND = 1;   //二次走行フラグをセット
+        MF.FLAG.SCND = 1;         //二次走行フラグをセット
         goal_x = GOAL_X;
         goal_y = GOAL_Y;
 
@@ -539,7 +539,7 @@ static void MX_TIM16_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
+  sConfigOC.Pulse = 25;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
@@ -602,7 +602,7 @@ static void MX_TIM17_Init(void)
     Error_Handler();
   }
   sConfigOC.OCMode = TIM_OCMODE_PWM1;
-  sConfigOC.Pulse = 0;
+  sConfigOC.Pulse = 25;
   sConfigOC.OCPolarity = TIM_OCPOLARITY_HIGH;
   sConfigOC.OCNPolarity = TIM_OCNPOLARITY_HIGH;
   sConfigOC.OCFastMode = TIM_OCFAST_DISABLE;
